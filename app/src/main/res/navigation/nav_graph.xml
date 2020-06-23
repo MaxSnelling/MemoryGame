@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/FragmentMain">
 
     <fragment
         android:id="@+id/FirstFragment"
@@ -24,5 +24,19 @@
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/FragmentMain"
+        android:name="com.maxsnelling.memorygame.MainFragment"
+        android:label="@string/main_fragment_label">
+
+        <action
+            android:id="@+id/action_MainFragment_to_GameFragment"
+            app:destination="@id/FragmentGame" />
+    </fragment>
+    <fragment
+        android:id="@+id/FragmentGame"
+        android:name="com.maxsnelling.memorygame.GameFragment"
+        android:label="@string/game_fragment_label">
     </fragment>
 </navigation>
