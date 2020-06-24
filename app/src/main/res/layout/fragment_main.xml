@@ -2,29 +2,63 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/FragmentMain"
+    android:id="@+id/fragmentMain"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#03A9F4">
 
     <TextView
         android:id="@+id/TitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Memory Game"
-        android:textSize="30sp"
+        android:text="@string/titleText"
+        android:textColor="#E91E63"
+        android:textSize="45sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.241" />
+        app:layout_constraintVertical_bias="0.214" />
+
+    <TextView
+        android:id="@+id/difficultyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/DifficultyText"
+        android:textColor="#E91E63"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.342"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TitleText"
+        app:layout_constraintVertical_bias="0.152" />
 
     <Button
         android:id="@+id/PlayButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Play"
+        android:text="@string/playButtonText"
+        android:textColor="#E91E63"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TitleText" />
+        app:layout_constraintTop_toBottomOf="@+id/difficultyText"
+        app:layout_constraintVertical_bias="0.344" />
+
+    <Spinner
+        android:id="@+id/difficultySpinner"
+        android:layout_width="81dp"
+        android:layout_height="34dp"
+        android:entries="@array/difficulty_list"
+        android:textColor="#E91E63"
+        app:layout_constraintBottom_toBottomOf="@+id/difficultyText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.218"
+        app:layout_constraintStart_toEndOf="@+id/difficultyText"
+        app:layout_constraintTop_toTopOf="@+id/difficultyText"
+        app:layout_constraintVertical_bias="0.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
