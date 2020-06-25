@@ -12,10 +12,10 @@
 
         <action
             android:id="@+id/action_MainFragment_to_GameFragment"
-            app:destination="@id/FragmentGame" />
+            app:destination="@id/fragmentGame" />
     </fragment>
     <fragment
-        android:id="@+id/FragmentGame"
+        android:id="@+id/fragmentGame"
         android:name="com.maxsnelling.memorygame.GameFragment"
         android:label="@string/game_fragment_label">
         <action
