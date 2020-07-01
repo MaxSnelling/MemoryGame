@@ -2,6 +2,7 @@ package com.maxsnelling.memorygame
 
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -14,6 +15,14 @@ class GameActivity: AppCompatActivity() {
     private val tileAssignmentList = createTileAssignmentList()
     private val tileList = arrayListOf<Button>()
     private val pairFoundList = BooleanArray(difficultyLevel)
+    private val pairColourMap = hashMapOf(
+        0 to Color.BLUE,
+        1 to Color.RED,
+        2 to Color.YELLOW,
+        3 to Color.MAGENTA,
+        4 to Color.CYAN,
+        5 to Color.DKGRAY
+    )
     private var tileSelectFirst = -1
     private var tileSelectSecond = -1
     private var score = 0
@@ -27,6 +36,7 @@ class GameActivity: AppCompatActivity() {
     private fun tileSelect(tileNumber: Int) {
         if(tileSelectFirst < 0) tileSelectFirst = tileNumber
         else if(tileSelectSecond < 0) tileSelectSecond = tileNumber
+        tileList[tileNumber].setBackgroundColor(pairColourMap[tileAssignmentList[tileNumber]]!!)
 
         if (tileSelectFirst >= 0 && tileSelectSecond >= 0) matchCheck()
     }
@@ -34,14 +44,26 @@ class GameActivity: AppCompatActivity() {
     private fun matchCheck() {
         val pairNumber1 = tileAssignmentList[tileSelectFirst]
         val pairNumber2 = tileAssignmentList[tileSelectSecond]
+        val tile1 = tileList[tileSelectFirst]
+        val tile2 = tileList[tileSelectSecond]
+        val handler = Handler()
         if(pairNumber1 == pairNumber2 && !pairFoundList[pairNumber1 - 1]) {
             score++
             findViewById<TextView>(R.id.gameScore).text = "Score: " + score
-            tileList[tileSelectFirst].setBackgroundColor(Color.RED)
-            tileList[tileSelectSecond].setBackgroundColor(Color.RED)
             pairFoundList[pairNumber1 -1] = true
+            handler.postDelayed(Runnable {
+                tile1.setBackgroundColor(Color.GREEN)
+                tile2.setBackgroundColor(Color.GREEN)
+            }, 1000)
+        } else {
+            handler.postDelayed(Runnable {
+                tile1.setBackgroundColor(Color.LTGRAY)
+                tile2.setBackgroundColor(Color.LTGRAY)
+            }, 1000)
+
         }
         println(tileAssignmentList[tileSelectFirst].toString() + " " + tileAssignmentList[tileSelectSecond])
+
         tileSelectFirst = -1
         tileSelectSecond = -1
     }
@@ -78,11 +100,13 @@ class GameActivity: AppCompatActivity() {
             val set = ConstraintSet()
             val tile = Button(this)
             tile.text = (x+1).toString()
+            tile.setBackgroundColor(Color.LTGRAY)
             tile.id = View.generateViewId()
             constraintLayout.addView(tile)
 
             tile.setOnClickListener{
-                tileSelect(x)
+                if (!pairFoundList[tileAssignmentList[x]-1])
+                    tileSelect(x)
             }
 
             set.clone(constraintLayout)
