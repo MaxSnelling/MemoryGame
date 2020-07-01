@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_MainFragment_to_GameFragment"
             app:destination="@id/fragmentGame" />
+        <action
+            android:id="@+id/action_fragmentMain_to_gameActivity"
+            app:destination="@id/gameActivity" />
     </fragment>
     <fragment
         android:id="@+id/fragmentGame"
@@ -22,4 +25,8 @@
             android:id="@+id/action_FragmentGame_to_fragmentMain"
             app:destination="@id/fragmentMain" />
     </fragment>
+    <activity
+        android:id="@+id/gameActivity"
+        android:name="com.maxsnelling.memorygame.GameActivity"
+        android:label="GameActivity" />
 </navigation>

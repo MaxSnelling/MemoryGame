@@ -46,6 +46,7 @@ class GameFragment : Fragment() {
         view.findViewById<Button>(R.id.tile_6).setOnClickListener {
             tileSelect(5)
         }
+        addTiles()
     }
 
     fun tileSelect(tileNumber: Int) {
@@ -84,5 +85,11 @@ class GameFragment : Fragment() {
             tileList[position2] = temp
         }
         return tileList
+    }
+
+    fun addTiles() {
+        for(x in 0 until difficultyLevel*2) {
+        }
+
     }
 }

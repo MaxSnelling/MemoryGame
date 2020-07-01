@@ -25,7 +25,9 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<Button>(R.id.PlayButton).setOnClickListener {
-            findNavController().navigate(R.id.action_MainFragment_to_GameFragment)
+//            findNavController().navigate(R.id.action_MainFragment_to_GameFragment)
+            findNavController().navigate(R.id.action_fragmentMain_to_gameActivity)
+
         }
 
     }
