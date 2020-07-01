@@ -1,5 +1,6 @@
 package com.maxsnelling.memorygame
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -10,9 +11,12 @@ import androidx.constraintlayout.widget.ConstraintSet
 
 class GameActivity: AppCompatActivity() {
     private val difficultyLevel = 3
-    private val tileList = createTileList()
-    var tileSelectFirst = -1
-    var tileSelectSecond = -1
+    private val tileAssignmentList = createTileAssignmentList()
+    private val tileList = arrayListOf<Button>()
+    private val pairFoundList = BooleanArray(difficultyLevel)
+    private var tileSelectFirst = -1
+    private var tileSelectSecond = -1
+    private var score = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +24,7 @@ class GameActivity: AppCompatActivity() {
         addTiles()
     }
 
-    fun tileSelect(tileNumber: Int) {
+    private fun tileSelect(tileNumber: Int) {
         if(tileSelectFirst < 0) tileSelectFirst = tileNumber
         else if(tileSelectSecond < 0) tileSelectSecond = tileNumber
 
@@ -28,22 +32,28 @@ class GameActivity: AppCompatActivity() {
     }
 
     private fun matchCheck() {
-        if(tileList[tileSelectFirst] == tileList[tileSelectSecond]) {
-            println("match")
+        val pairNumber1 = tileAssignmentList[tileSelectFirst]
+        val pairNumber2 = tileAssignmentList[tileSelectSecond]
+        if(pairNumber1 == pairNumber2 && !pairFoundList[pairNumber1 - 1]) {
+            score++
+            findViewById<TextView>(R.id.gameScore).text = "Score: " + score
+            tileList[tileSelectFirst].setBackgroundColor(Color.RED)
+            tileList[tileSelectSecond].setBackgroundColor(Color.RED)
+            pairFoundList[pairNumber1 -1] = true
         }
-        println(tileList[tileSelectFirst].toString() + " " + tileList[tileSelectSecond])
+        println(tileAssignmentList[tileSelectFirst].toString() + " " + tileAssignmentList[tileSelectSecond])
         tileSelectFirst = -1
         tileSelectSecond = -1
     }
 
-    private fun createTileList() : IntArray {
+    private fun createTileAssignmentList() : IntArray {
         val tileCount = difficultyLevel * 2
-        val tileList = IntArray(tileCount)
+        val tileAssignmentList = IntArray(tileCount)
         var listPosition = 0
         for(x in 1..difficultyLevel) {
-            tileList[listPosition] = x
+            tileAssignmentList[listPosition] = x
             listPosition++
-            tileList[listPosition] = x
+            tileAssignmentList[listPosition] = x
             listPosition++
         }
 
@@ -51,18 +61,17 @@ class GameActivity: AppCompatActivity() {
         for(x in 0..10000) {
             val position1 = listRange.random()
             val position2 = listRange.random()
-            val temp = tileList[position1]
-            tileList[position1] = tileList[position2]
-            tileList[position2] = temp
+            val temp = tileAssignmentList[position1]
+            tileAssignmentList[position1] = tileAssignmentList[position2]
+            tileAssignmentList[position2] = temp
         }
-        return tileList
+        return tileAssignmentList
     }
 
     private fun addTiles() {
         val constraintLayout = findViewById<ConstraintLayout>(R.id.constraint_layout_game)
         val scoreText = findViewById<TextView>(R.id.gameScore)
         val backButton = findViewById<Button>(R.id.gameBackButton)
-        val tileList = arrayListOf<Button>()
         val tileIDList = IntArray(difficultyLevel * 2)
 
         for (x in 0 until difficultyLevel * 2) {
@@ -72,13 +81,11 @@ class GameActivity: AppCompatActivity() {
             tile.id = View.generateViewId()
             constraintLayout.addView(tile)
 
+            tile.setOnClickListener{
+                tileSelect(x)
+            }
+
             set.clone(constraintLayout)
-//            if(tileList.isEmpty()) {
-//                set.connect(tile.id, ConstraintSet.TOP, scoreText.id, ConstraintSet.BOTTOM)
-//            } else {
-//                set.connect(tile.id, ConstraintSet.TOP, tileList.last().id, ConstraintSet.BOTTOM)
-//            }
-//            set.connect(tile.id, ConstraintSet.BOTTOM, backButton.id, ConstraintSet.BOTTOM)
             set.connect(tile.id, ConstraintSet.LEFT, constraintLayout.id, ConstraintSet.LEFT)
             set.connect(tile.id, ConstraintSet.RIGHT, constraintLayout.id, ConstraintSet.RIGHT)
             set.applyTo(constraintLayout)

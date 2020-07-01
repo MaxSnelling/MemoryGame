@@ -25,9 +25,6 @@ class GameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<Button>(R.id.button_back).setOnClickListener {
-            findNavController().navigate(R.id.action_FragmentGame_to_fragmentMain)
-        }
         view.findViewById<Button>(R.id.tile_1).setOnClickListener {
             tileSelect(0)
         }

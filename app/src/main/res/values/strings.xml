@@ -11,13 +11,7 @@
     <string name="playButtonText">Play</string>
     <string name="DifficultyText">Difficulty:</string>
     <string name="titleText">Memory Game</string>
-    <string name="score">Score: 0</string>
-    <string name="tile1_label">1</string>
-    <string name="tile5_label">5</string>
-    <string name="tile4_label">4</string>
-    <string name="tile6_label">6</string>
-    <string name="tile3_label">3</string>
-    <string name="tile2_label">2</string>
+    <string name="scoreText">Score: 0</string>
     <string name="backButton">Back</string>
 
     <string-array name="difficulty_list">
