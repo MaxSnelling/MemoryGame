@@ -11,10 +11,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 
 class GameActivity: AppCompatActivity() {
-    private val difficultyLevel = 5
-    private val tileAssignmentList = createTileAssignmentList()
-    private val tileList = arrayListOf<Button>()
-    private val pairFoundList = BooleanArray(difficultyLevel)
+    private var difficultyLevel = 2
+    private var tileAssignmentList = createTileAssignmentList()
+    private var tileList = arrayListOf<Button>()
+    private var pairFoundList = BooleanArray(difficultyLevel)
     private val pairColourMap = hashMapOf(
         0 to Color.BLUE,
         1 to Color.RED,
@@ -46,14 +46,15 @@ class GameActivity: AppCompatActivity() {
         val pairNumber2 = tileAssignmentList[tileSelectSecond]
         val tile1 = tileList[tileSelectFirst]
         val tile2 = tileList[tileSelectSecond]
+        score++
+        findViewById<TextView>(R.id.gameScore).text = "Score: " + score
         val handler = Handler()
         if (pairNumber1 == pairNumber2 && !pairFoundList[pairNumber1 - 1]) {
-            score++
-            findViewById<TextView>(R.id.gameScore).text = "Score: " + score
             pairFoundList[pairNumber1 - 1] = true
             handler.postDelayed(Runnable {
                 tile1.setBackgroundColor(Color.GREEN)
                 tile2.setBackgroundColor(Color.GREEN)
+                if(!pairFoundList.contains(false)) gameWon()
             }, 1000)
         } else {
             handler.postDelayed(Runnable {
@@ -95,7 +96,6 @@ class GameActivity: AppCompatActivity() {
         val tileIDList = IntArray(difficultyLevel * 2)
 
         for (x in 0 until difficultyLevel*2) {
-            val set = ConstraintSet()
             val tile = Button(this)
             tile.text = (x + 1).toString()
             tile.setBackgroundColor(Color.LTGRAY)
@@ -132,9 +132,9 @@ class GameActivity: AppCompatActivity() {
     }
 
     private fun createVerticalTileChains(evenTileIDs: IntArray, oddTileIDs: IntArray, upperID: Int, lowerID: Int, constraintLayout: ConstraintLayout) {
-        val constraintSetLeftColumn = ConstraintSet()
-        constraintSetLeftColumn.clone(constraintLayout)
-        constraintSetLeftColumn.createVerticalChain(
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(constraintLayout)
+        constraintSet.createVerticalChain(
             upperID,
             ConstraintSet.BOTTOM,
             lowerID,
@@ -143,11 +143,7 @@ class GameActivity: AppCompatActivity() {
             null,
             ConstraintSet.CHAIN_SPREAD
         )
-        constraintSetLeftColumn.applyTo(constraintLayout)
-
-        val constraintSetRightColumn = ConstraintSet()
-        constraintSetRightColumn.clone(constraintLayout)
-        constraintSetRightColumn.createVerticalChain(
+        constraintSet.createVerticalChain(
             upperID,
             ConstraintSet.BOTTOM,
             lowerID,
@@ -156,14 +152,14 @@ class GameActivity: AppCompatActivity() {
             null,
             ConstraintSet.CHAIN_SPREAD
         )
-        constraintSetRightColumn.applyTo(constraintLayout)
+        constraintSet.applyTo(constraintLayout)
     }
 
     private fun createHorizontalTileChains(tileIDList: IntArray, constraintLayout: ConstraintLayout) {
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(constraintLayout)
         for(x in 0..tileIDList.size-2 step 2) {
-            val constraintSetRight = ConstraintSet()
-            constraintSetRight.clone(constraintLayout)
-            constraintSetRight.createHorizontalChain(
+            constraintSet.createHorizontalChain(
                 constraintLayout.id,
                 ConstraintSet.LEFT,
                 constraintLayout.id,
@@ -172,7 +168,38 @@ class GameActivity: AppCompatActivity() {
                 null,
                 ConstraintSet.CHAIN_SPREAD
             )
-            constraintSetRight.applyTo(constraintLayout)
         }
+        constraintSet.applyTo(constraintLayout)
+    }
+
+    private fun gameWon() {
+        val constraintLayout = findViewById<ConstraintLayout>(R.id.constraint_layout_game)
+        for(x in tileList) {
+            constraintLayout.removeView(constraintLayout.findViewById<Button>(x.id))
+        }
+
+        val playAgainButton = Button(this)
+        playAgainButton.text = getString(R.string.PlayAgainText)
+        playAgainButton.id = View.generateViewId()
+        constraintLayout.addView(playAgainButton)
+        playAgainButton.setOnClickListener {
+            score = 0
+            tileAssignmentList = createTileAssignmentList()
+            tileList = arrayListOf<Button>()
+            pairFoundList = BooleanArray(difficultyLevel)
+            addTiles()
+            constraintLayout.removeView(playAgainButton)
+        }
+
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(constraintLayout)
+        constraintSet.connect(playAgainButton.id, ConstraintSet.LEFT, constraintLayout.id ,ConstraintSet.LEFT)
+        constraintSet.connect(playAgainButton.id, ConstraintSet.RIGHT, constraintLayout.id ,ConstraintSet.RIGHT)
+        constraintSet.connect(playAgainButton.id, ConstraintSet.BOTTOM, constraintLayout.id ,ConstraintSet.BOTTOM)
+        constraintSet.connect(playAgainButton.id, ConstraintSet.TOP, constraintLayout.id ,ConstraintSet.TOP)
+
+        constraintSet.applyTo(constraintLayout)
+
+
     }
 }

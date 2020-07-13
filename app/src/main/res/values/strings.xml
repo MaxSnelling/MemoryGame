@@ -13,6 +13,7 @@
     <string name="titleText">Memory Game</string>
     <string name="scoreText">Score: 0</string>
     <string name="backButton">Back</string>
+    <string name="PlayAgainText">Play Again</string>
 
     <string-array name="difficulty_list">
         <item>1</item>
