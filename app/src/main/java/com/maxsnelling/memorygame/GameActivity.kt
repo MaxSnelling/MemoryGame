@@ -1,5 +1,6 @@
 package com.maxsnelling.memorygame
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
@@ -11,26 +12,38 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 
 class GameActivity: AppCompatActivity() {
-    private var difficultyLevel = 2
-    private var tileAssignmentList = createTileAssignmentList()
+    private var difficultyLevel = 0
+    private lateinit var tileAssignmentList : IntArray
     private var tileList = arrayListOf<Button>()
-    private var pairFoundList = BooleanArray(difficultyLevel)
+    private lateinit var pairFoundList : BooleanArray
+    private var tileSelectFirst = -1
+    private var tileSelectSecond = -1
+    private var score = 0
     private val pairColourMap = hashMapOf(
         0 to Color.BLUE,
         1 to Color.RED,
         2 to Color.YELLOW,
         3 to Color.MAGENTA,
         4 to Color.CYAN,
-        5 to Color.DKGRAY
+        5 to Color.DKGRAY,
+        6 to Color.WHITE
     )
-    private var tileSelectFirst = -1
-    private var tileSelectSecond = -1
-    private var score = 0
+
+    private fun initialiseVariables() {
+        difficultyLevel = intent.extras!!.getInt("difficulty") + 1
+        tileAssignmentList = createTileAssignmentList()
+        pairFoundList = BooleanArray(difficultyLevel)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
+        initialiseVariables()
         addTiles()
+        findViewById<Button>(R.id.gameBackButton).setOnClickListener{
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun tileSelect(tileNumber: Int) {
