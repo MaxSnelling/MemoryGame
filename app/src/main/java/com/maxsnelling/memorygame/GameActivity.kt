@@ -10,7 +10,13 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import kotlin.math.ceil
 
+/**
+ * Activity for creating match tiles and controlling their selection
+ * @author Max Snelling
+ * @version 15/07/20
+ */
 class GameActivity: AppCompatActivity() {
     private var difficultyLevel = 0
     private lateinit var tileAssignmentList : IntArray
@@ -29,6 +35,10 @@ class GameActivity: AppCompatActivity() {
         6 to Color.WHITE
     )
 
+    /**
+     * Late initialisation of class variables as difficulty value
+     * is first needed from the intent
+     */
     private fun initialiseVariables() {
         difficultyLevel = intent.extras!!.getInt("difficulty") + 1
         tileAssignmentList = createTileAssignmentList()
@@ -46,21 +56,28 @@ class GameActivity: AppCompatActivity() {
         }
     }
 
+    /**
+     * Keeps track of the 2 tiles selected by the user. When 2 have been
+     * selected then a check is made to see if it is a match.
+     */
     private fun tileSelect(tileNumber: Int) {
         if (tileSelectFirst < 0) tileSelectFirst = tileNumber
-        else if (tileSelectSecond < 0) tileSelectSecond = tileNumber
+        else if (tileSelectSecond < 0 && tileNumber != tileSelectFirst) tileSelectSecond = tileNumber
         tileList[tileNumber].setBackgroundColor(pairColourMap[tileAssignmentList[tileNumber]]!!)
 
         if (tileSelectFirst >= 0 && tileSelectSecond >= 0) matchCheck()
     }
 
+    /**
+     * Checks if 2 tiles are a pair. Changes colours of tiles to show the
+     * user the result.
+     */
     private fun matchCheck() {
         val pairNumber1 = tileAssignmentList[tileSelectFirst]
         val pairNumber2 = tileAssignmentList[tileSelectSecond]
         val tile1 = tileList[tileSelectFirst]
         val tile2 = tileList[tileSelectSecond]
-        score++
-        findViewById<TextView>(R.id.gameScore).text = "Score: " + score
+        incrementScore()
         val handler = Handler()
         if (pairNumber1 == pairNumber2 && !pairFoundList[pairNumber1 - 1]) {
             pairFoundList[pairNumber1 - 1] = true
@@ -80,6 +97,15 @@ class GameActivity: AppCompatActivity() {
         tileSelectSecond = -1
     }
 
+    private fun incrementScore() {
+        score++
+        findViewById<TextView>(R.id.gameScore).text = "Score: " + score
+    }
+
+    /**
+     * Creates the assignment of which tiles become pairs. Makes a list
+     * of pairs and then swaps random positions until the list is random.
+     */
     private fun createTileAssignmentList(): IntArray {
         val tileCount = difficultyLevel * 2
         val tileAssignmentList = IntArray(tileCount)
@@ -102,6 +128,9 @@ class GameActivity: AppCompatActivity() {
         return tileAssignmentList
     }
 
+    /**
+     * Displays the tiles on the constraint layout.
+     */
     private fun addTiles() {
         val constraintLayout = findViewById<ConstraintLayout>(R.id.constraint_layout_game)
         val scoreText = findViewById<TextView>(R.id.gameScore)
@@ -127,9 +156,13 @@ class GameActivity: AppCompatActivity() {
         createHorizontalTileChains(tileIDList, constraintLayout)
     }
 
-    private fun filterListByEvenIndex(tileIDList: IntArray) : Pair<IntArray, IntArray> {
-        val oddTileIDs = IntArray(difficultyLevel)
-        val evenTileIDs = IntArray(difficultyLevel)
+    /**
+     * Takes a list of integers and returns 2 lists, one for odd positions and one
+     * for even positions.
+     */
+    fun filterListByEvenIndex(tileIDList: IntArray) : Pair<IntArray, IntArray> {
+        val oddTileIDs = IntArray(ceil((tileIDList.size.toDouble()/2)).toInt())
+        val evenTileIDs = IntArray(tileIDList.size/2)
         var i = 0
         var j = 0
         for(x in tileIDList) {
@@ -144,6 +177,9 @@ class GameActivity: AppCompatActivity() {
         return Pair(oddTileIDs, evenTileIDs)
     }
 
+    /**
+     * Creates column constraint chains to layout tiles.
+     */
     private fun createVerticalTileChains(evenTileIDs: IntArray, oddTileIDs: IntArray, upperID: Int, lowerID: Int, constraintLayout: ConstraintLayout) {
         val constraintSet = ConstraintSet()
         constraintSet.clone(constraintLayout)
@@ -168,6 +204,9 @@ class GameActivity: AppCompatActivity() {
         constraintSet.applyTo(constraintLayout)
     }
 
+    /**
+     * Creates row constraint chains to layout tiles.
+     */
     private fun createHorizontalTileChains(tileIDList: IntArray, constraintLayout: ConstraintLayout) {
         val constraintSet = ConstraintSet()
         constraintSet.clone(constraintLayout)
@@ -185,6 +224,10 @@ class GameActivity: AppCompatActivity() {
         constraintSet.applyTo(constraintLayout)
     }
 
+    /**
+     * When game is finished the a play again button is shown which
+     * places a fresh set of tiles in a new order.
+     */
     private fun gameWon() {
         val constraintLayout = findViewById<ConstraintLayout>(R.id.constraint_layout_game)
         for(x in tileList) {
@@ -212,7 +255,5 @@ class GameActivity: AppCompatActivity() {
         constraintSet.connect(playAgainButton.id, ConstraintSet.TOP, constraintLayout.id ,ConstraintSet.TOP)
 
         constraintSet.applyTo(constraintLayout)
-
-
     }
 }

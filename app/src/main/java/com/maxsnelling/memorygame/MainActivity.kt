@@ -9,6 +9,11 @@ import android.widget.Button
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 
+/**
+ * Activity for selecting difficulty setting and opening the game page
+ * @author Max Snelling
+ * @version 14/07/20
+ */
 class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private var difficultyLevel = 0
 
