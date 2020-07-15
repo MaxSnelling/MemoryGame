@@ -14,10 +14,12 @@ Android hidden tile matching game written in Kotlin
 - Saving scores in a database using JDBC
 - Improve advanced tile layout design for higher difficulties
 
-![lib/HomeScreen.png](Memory%20Game%202647ecfd102e470c919fc587fa525887/Screenshot_1594836958.png)
+### Screenshots
 
-![lib/DropDown.png](Memory%20Game%202647ecfd102e470c919fc587fa525887/Screenshot_1594836969.png)
+![](lib/HomeScreen.png)
 
-![lib/GamePage.png](Memory%20Game%202647ecfd102e470c919fc587fa525887/Screenshot_1594836974.png)
+![](lib/DropDown.png)
 
-![lib/GameInAction.png](Memory%20Game%202647ecfd102e470c919fc587fa525887/Screenshot_1594836993.png)
+![]lib/GamePage.png)
+
+![](lib/GameInAction.png)
