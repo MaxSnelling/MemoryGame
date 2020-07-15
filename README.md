@@ -10,9 +10,9 @@ Android hidden tile matching game written in Kotlin
 
 ### Future Changes
 
-- Added networking to sever using sockets
+- Add networking to a server using sockets
 - Saving scores in a database using JDBC
-- Improve advanced tile layout design for higher difficulties
+- Improve tile layout design for higher difficulties
 
 ### Screenshots
 
