@@ -16,10 +16,10 @@ Android hidden tile matching game written in Kotlin
 
 ### Screenshots
 
-![](lib/HomeScreen.png =250x)
+<img src="lib/HomeScreen.png" width="250"/>
 
-![](lib/DropDown.png =250x)
+<img src="lib/DropDown.png" width="250"/>
 
-![]lib/GamePage.png =250x)
+<img src="lib/GamePage.png" width="250"/>
 
-![](lib/GameInAction.png =250x)
+<img src="lib/GameInAction.png" width="250"/>
