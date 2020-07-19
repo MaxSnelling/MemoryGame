@@ -32,14 +32,14 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private fun addAdapterToSpinner() {
         val spinner = findViewById<Spinner>(R.id.difficultySpinner)
-        val difficultyLevelList: Array<String> = resources.getStringArray(R.array.difficulty_list)
+        val difficultyLevelList: Array<String> = resources.getStringArray(R.array.difficultyList)
         spinner.onItemSelectedListener = this
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, difficultyLevelList)
         spinner.adapter = adapter
     }
 
     override fun onItemSelected(arg0: AdapterView<*>, arg1: View, position: Int, id: Long) {
-        val difficultyLevelList: Array<String> = resources.getStringArray(R.array.difficulty_list)
+        val difficultyLevelList: Array<String> = resources.getStringArray(R.array.difficultyList)
         difficultyLevel = difficultyLevelList[position].toInt()
     }
 

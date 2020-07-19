@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.content.res.ResourcesCompat
 import kotlin.math.ceil
 
 /**
@@ -141,6 +142,7 @@ class GameActivity: AppCompatActivity() {
             val tile = Button(this)
             tile.text = (x + 1).toString()
             tile.setBackgroundColor(Color.LTGRAY)
+            tile.setTextColor(ResourcesCompat.getColor(resources, R.color.colorButtonText, null))
             tile.id = View.generateViewId()
             constraintLayout.addView(tile)
             tileIDList[x] = tile.id
@@ -236,6 +238,7 @@ class GameActivity: AppCompatActivity() {
 
         val playAgainButton = Button(this)
         playAgainButton.text = getString(R.string.PlayAgainText)
+        playAgainButton.setTextColor(ResourcesCompat.getColor(resources, R.color.colorText, null))
         playAgainButton.id = View.generateViewId()
         constraintLayout.addView(playAgainButton)
         playAgainButton.setOnClickListener {

@@ -5,14 +5,14 @@
     android:id="@+id/constraint_layout_game"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#03A9F4">
+    android:background="@color/colorPrimary">
 
     <Button
         android:id="@+id/gameBackButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/backButton"
-        android:textColor="#E91E63"
+        android:textColor="@color/colorText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.099"
@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/titleText"
-        android:textColor="#E91E63"
+        android:textColor="@color/colorText"
         android:textSize="45sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/scoreText"
-        android:textColor="#E91E63"
+        android:textColor="@color/colorText"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
