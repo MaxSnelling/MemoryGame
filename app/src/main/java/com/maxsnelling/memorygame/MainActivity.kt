@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         addAdapterToSpinner()
-        findViewById<Button>(R.id.PlayButton).setOnClickListener {
+        findViewById<Button>(R.id.playButton).setOnClickListener {
             if(difficultyLevel > 0) {
                 val intent = Intent(this, GameActivity::class.java)
                 intent.putExtra("difficulty", difficultyLevel)
